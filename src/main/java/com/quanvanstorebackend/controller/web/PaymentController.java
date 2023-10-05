@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,11 +22,11 @@ public class PaymentController {
     private VNPayService vnPayService;
 
     @PostMapping("/")
-    public ServerResponse payment(@RequestBody PaymenRequestDTO paymenRequestDTO) {
+    public ServerResponse payment(@RequestBody PaymenRequestDTO paymenRequestDTO, HttpServletRequest request) {
         try {
             System.out.println(paymenRequestDTO.getProducts());
             System.out.println(paymenRequestDTO.getQuantity());
-            Object res = vnPayService.pay(paymenRequestDTO);
+            Object res = vnPayService.pay(paymenRequestDTO, request);
             return ServerResponse.success("Chuyển đến trang thanh toán!", res);
         } catch (Exception exception) {
             exception.printStackTrace();

@@ -16,6 +16,7 @@ public class OrderItemDTO extends BaseDTO{
     private int quantity;
     private Long userId;
     private Long productId;
+    private Integer status;
     private ProductEntity product;
 
     public OrderItemDTO(OrderItemEntity orderItemEntity) {
@@ -30,6 +31,7 @@ public class OrderItemDTO extends BaseDTO{
         this.quantity = orderItemEntity.getQuantity();
         this.userId = orderItemEntity.getUserId();
         this.productId = orderItemEntity.getProductId();
+        this.status = orderItemEntity.getStatus();
 
     }
 

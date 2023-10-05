@@ -5,9 +5,7 @@ import com.quanvanstorebackend.dto.OrderDTO;
 import com.quanvanstorebackend.dto.ServerResponse;
 import com.quanvanstorebackend.exception.UnknowException;
 import com.quanvanstorebackend.service.OrderService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,6 +18,16 @@ public class OrderController extends BaseController<OrderService> {
         try {
             List<OrderDTO> orderDTOList = service.getAllForAdmin();
             return ServerResponse.success("Lấy danh sách đơn hàng thành công!", orderDTOList);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            throw new UnknowException("Unknown exception get all orders for admin!");
+        }
+    }
+    @PutMapping("/")
+    public ServerResponse updateStatus(@RequestParam Long orderItemId, Integer status) {
+        try {
+            service.updateStatus(orderItemId, status);
+            return ServerResponse.success("Lấy danh sách đơn hàng thành công!");
         } catch (Exception exception) {
             exception.printStackTrace();
             throw new UnknowException("Unknown exception get all orders for admin!");

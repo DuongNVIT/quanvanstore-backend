@@ -31,6 +31,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final String[] IGNORED_AUTHENTICATED_URL = {
             "/api/signin",
             "/api/signup",
+            "/api/banner/**",
+            "/api/infor/**",
+            "/api/news/**",
+            "/api/images/**",
             "/api/product/**",
             "/api/payment/**",
             "/"

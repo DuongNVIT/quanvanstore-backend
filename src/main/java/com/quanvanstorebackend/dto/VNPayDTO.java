@@ -11,8 +11,8 @@ import lombok.Setter;
 @NoArgsConstructor
 public class VNPayDTO {
     private String orderInfor;
-    private String orderType;
+    private String orderType = "";
     private String txnRef;
     private int amount;
-    private String bankCode;
+    private String bankCode = "NCB";
 }

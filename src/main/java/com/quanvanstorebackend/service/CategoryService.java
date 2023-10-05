@@ -12,4 +12,8 @@ public class CategoryService extends BaseService<CategoryRepository, CategoryEnt
     public List<CategoryEntity> getAllCategory() {
         return repository.findByDeletedFalse();
     }
+
+    public CategoryEntity addNewCategory(CategoryEntity categoryEntity) {
+        return save(categoryEntity);
+    }
 }

@@ -92,4 +92,11 @@ public class ProductService extends BaseService<ProductRepository, ProductEntity
     public void deleteProduct(Long productId) {
         delete(productId);
     }
+
+    public List<ProductEntity> getRelevantProducts(Long productId) {
+        ProductEntity productEntity = findById(productId);
+        Long categoryId = productEntity.getCategoryId();
+        List<ProductEntity> productEntityList = repository.findTop5ByCategoryIdAndDeletedFalseAndIdNot(categoryId, productId);
+        return productEntityList;
+    }
 }

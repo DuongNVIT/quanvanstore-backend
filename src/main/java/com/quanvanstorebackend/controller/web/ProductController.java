@@ -63,4 +63,15 @@ public class ProductController extends BaseController<ProductService> {
 
     }
 
+    @GetMapping("/relevant/")
+    public ServerResponse getRelevantProducts(@RequestParam Long productId) {
+        try {
+            List<ProductEntity> productEntityList = service.getRelevantProducts(productId);
+            return ServerResponse.success("Lấy sản phẩm liên quan!", productEntityList);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            throw new UnknowException("Unknown exception get relevant products!");
+        }
+    }
+
 }

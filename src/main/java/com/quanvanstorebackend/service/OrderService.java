@@ -48,4 +48,10 @@ public class OrderService extends BaseService<OrderRepository, OrdersEntity> {
                 .collect(Collectors.toList());
         return orderDTOList;
     }
+
+    public void updateStatus(Long orderItemId, Integer status) {
+        OrderItemEntity orderItemEntity = orderItemService.findById(orderItemId);
+        orderItemEntity.setStatus(status);
+        orderItemService.save(orderItemEntity);
+    }
 }

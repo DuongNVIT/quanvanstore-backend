@@ -32,5 +32,7 @@ public class OrderItemEntity extends BaseEntity{
     @Column(name = "order_id")
     private Long orderId;
 
+    @Column(name = "status")
+    private Integer status = 1;
 
 }

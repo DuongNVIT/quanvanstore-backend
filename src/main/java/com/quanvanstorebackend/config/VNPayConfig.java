@@ -1,7 +1,10 @@
 package com.quanvanstorebackend.config;
 
+import org.apache.commons.codec.binary.Hex;
+
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
+import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -22,6 +25,7 @@ public class VNPayConfig {
 
     public static String vnp_PayUrl = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
     public static String vnp_Returnurl = "http://localhost:8080/api/payment/save-order";
+//    public static String vnp_TmnCode = "T0AIJN07";
     public static String vnp_TmnCode = "T0AIJN07";
     public static String vnp_HashSecret = "IQVMPMRYOTWPEYTRIEQJPTUFWQAHQEVR";
     public static String vnp_apiUrl = "https://sandbox.vnpayment.vn/merchant_webapi/api/transaction";
@@ -83,26 +87,47 @@ public class VNPayConfig {
         return hmacSHA512(vnp_HashSecret,sb.toString());
     }
 
-    public static String hmacSHA512(final String key, final String data) {
+//    public static String hmacSHA512(final String key, final String data) {
+//        try {
+//
+//            if (key == null || data == null) {
+//                throw new NullPointerException();
+//            }
+//            final Mac hmac512 = Mac.getInstance("HmacSHA512");
+//            byte[] hmacKeyBytes = key.getBytes();
+//            final SecretKeySpec secretKey = new SecretKeySpec(hmacKeyBytes, "HmacSHA512");
+//            hmac512.init(secretKey);
+//            byte[] dataBytes = data.getBytes(StandardCharsets.UTF_8);
+//            byte[] result = hmac512.doFinal(dataBytes);
+//            StringBuilder sb = new StringBuilder(2 * result.length);
+//            for (byte b : result) {
+//                sb.append(String.format("%02x", b & 0xff));
+//            }
+//            return sb.toString();
+//
+//        } catch (Exception ex) {
+//            return "";
+//        }
+//    }
+
+    public static String hmacSHA512(String key , String data) {
+        Mac sha512Hmac;
+        String result ;
         try {
-
-            if (key == null || data == null) {
-                throw new NullPointerException();
-            }
-            final Mac hmac512 = Mac.getInstance("HmacSHA512");
-            byte[] hmacKeyBytes = key.getBytes();
-            final SecretKeySpec secretKey = new SecretKeySpec(hmacKeyBytes, "HmacSHA512");
-            hmac512.init(secretKey);
-            byte[] dataBytes = data.getBytes(StandardCharsets.UTF_8);
-            byte[] result = hmac512.doFinal(dataBytes);
-            StringBuilder sb = new StringBuilder(2 * result.length);
-            for (byte b : result) {
-                sb.append(String.format("%02x", b & 0xff));
-            }
-            return sb.toString();
-
-        } catch (Exception ex) {
-            return "";
+            final byte[] byteKey = key.getBytes(StandardCharsets.US_ASCII);
+            sha512Hmac = Mac.getInstance("HmacSHA512");
+            SecretKeySpec keySpec = new SecretKeySpec(byteKey, "HmacSHA512");
+            sha512Hmac.init(keySpec);
+            byte[] macData = sha512Hmac.doFinal(data.getBytes(StandardCharsets.US_ASCII));
+            result = Hex.encodeHexString(macData);
+            return result;
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        } catch (InvalidKeyException e) {
+            throw new RuntimeException(e);
+        } finally {
+// Put any cleanup here
+            System.out.println("Done");
         }
     }
 

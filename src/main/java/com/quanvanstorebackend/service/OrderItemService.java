@@ -35,4 +35,8 @@ public class OrderItemService extends BaseService<OrderItemRepository, OrderItem
                 .collect(Collectors.toList());
         return orderItemDTOS;
     }
+
+    public void deleteBill(Long id) {
+        delete(id);
+    }
 }

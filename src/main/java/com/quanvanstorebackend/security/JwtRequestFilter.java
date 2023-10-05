@@ -44,6 +44,10 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
         boolean isIgnoreJwtFilter = IGNORED_FILTER_URL.contains(request.getRequestURI())
                 || request.getRequestURI().startsWith("/api/product")
+                || request.getRequestURI().startsWith("/api/news")
+                || request.getRequestURI().startsWith("/api/banner")
+                || request.getRequestURI().startsWith("/api/images")
+                || request.getRequestURI().startsWith("/api/infor")
                 || request.getRequestURI().startsWith("/api/payment/save-order");
         if(isIgnoreJwtFilter) {
             System.out.println("Không cần filter jwt");

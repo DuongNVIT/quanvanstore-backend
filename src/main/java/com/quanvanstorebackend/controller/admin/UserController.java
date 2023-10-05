@@ -7,10 +7,7 @@ import com.quanvanstorebackend.exception.UnknowException;
 import com.quanvanstorebackend.service.UserService;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,6 +22,17 @@ public class UserController extends BaseController<UserService> {
             Pageable pageable = PageRequest.of(page, size);
             List<UserDTO> userList = service.getListUser(pageable);
             return ServerResponse.success("Lấy danh sách người dùng thành công!", userList);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new UnknowException("Unknown exception get all user!");
+        }
+    }
+
+    @DeleteMapping("/{userId}")
+    public ServerResponse deleteUser(@PathVariable Long userId) {
+        try {
+            service.toggleDeleted(userId);
+            return ServerResponse.success("Cập nhật trạng thái thành công!");
         } catch (Exception e) {
             e.printStackTrace();
             throw new UnknowException("Unknown exception get all user!");

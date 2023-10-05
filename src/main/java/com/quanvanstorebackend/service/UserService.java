@@ -45,8 +45,14 @@ public class UserService extends BaseService<UserRepository, UserEntity> {
         update(userToToggle);
     }
 
+    public void toggleDeleted(Long userId) {
+        UserEntity userToToggle = repository.findById(userId).get();
+        userToToggle.setDeleted(!userToToggle.getDeleted());
+        update(userToToggle);
+    }
+
     public List<UserDTO> getListUser(Pageable pageable) {
-        List<UserEntity> userEntities = repository.findByRoleIdAndDeletedFalse(2l);
+        List<UserEntity> userEntities = repository.findByRoleId(2l);
         return userEntities.stream().map(UserDTO::new).collect(Collectors.toList());
     }
 

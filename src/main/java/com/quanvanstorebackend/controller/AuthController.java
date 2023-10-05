@@ -2,6 +2,7 @@ package com.quanvanstorebackend.controller;
 
 import com.quanvanstorebackend.dto.ServerResponse;
 import com.quanvanstorebackend.dto.UserDTO;
+import com.quanvanstorebackend.entity.UserEntity;
 import com.quanvanstorebackend.exception.*;
 import com.quanvanstorebackend.security.JwtRequest;
 import com.quanvanstorebackend.security.JwtResponse;
@@ -13,10 +14,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api")
@@ -53,6 +51,41 @@ public class AuthController {
         } catch (Exception exception) {
             exception.printStackTrace();
             throw new UnauthorizeException("Unknow exception!");
+        }
+    }
+
+    @PutMapping("/change-pass")
+    public ServerResponse changePassword(@RequestParam String oldPass,
+                                         @RequestParam String newPass,
+                                         @RequestParam String verifyPass) {
+        try {
+            authService.changePassword(oldPass, newPass, verifyPass);
+            return ServerResponse.success("Đổi mật khẩu");
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            throw new UnknowException("Unknown exception change pass!");
+        }
+    }
+
+    @PutMapping("/profile")
+    public ServerResponse changeProfile(@RequestBody UserEntity userEntity) {
+        try {
+            authService.changeProfile(userEntity);
+            return ServerResponse.success("change profile");
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            throw new UnknowException("Unknown exception change profile!");
+        }
+    }
+
+    @GetMapping("/profile")
+    public ServerResponse getProfile() {
+        try {
+            UserEntity profile = authService.getProfile();
+            return ServerResponse.success("Get profile", profile);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            throw new UnknowException("Unknown exception change profile!");
         }
     }
 }

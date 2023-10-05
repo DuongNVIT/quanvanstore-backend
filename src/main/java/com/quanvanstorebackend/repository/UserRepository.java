@@ -21,4 +21,6 @@ public interface UserRepository extends BaseRepository<UserEntity> {
     UserEntity findByCode(String userCode);
 
     List<UserEntity> findByRoleIdAndDeletedFalse(long l);
+
+    List<UserEntity> findByRoleId(long l);
 }
